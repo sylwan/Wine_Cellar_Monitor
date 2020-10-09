@@ -137,45 +137,37 @@ void setup() {
 
   
 
-  // Serial.println("here1");
-  static const unsigned long start_millis=millis();
-  while((millis()-start_millis)<2000){
-    Blynk.run();
-    Serial.println("here2");
-  
-    ArduinoOTA.handle();
-  }
-  // DEBUG_OUTPUT.println("success! sleep");                // send to serial control messsage
-  // ESP.deepSleep(TEN_MINUTES_IN_uS);                       // put device to 10 minutes sleep, adjust if other sleep time is reqired between measurements
-  Serial.println("here3");
-  if(!OTA_updating){  
-  #ifndef DEEPSLEEP
-    ESP.restart();   // for testing purposes simulating a deepsleep
-  #else
-    // ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
-    // delay(200);        // recommended to use with deepsleep
-  #endif
-  }
   // DEBUG_OUTPUT.print("["); 
   // DEBUG_OUTPUT.print(millis());
   // DEBUG_OUTPUT.println("] END Setup");
 }
 
 void loop() {
+
+  Serial.println("loop");
   sendTemperature();
+  static const unsigned long start_millis=millis();
+  while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
+    Blynk.run();
+    Serial.println("here2");
+    ArduinoOTA.handle();
+  }
+  // DEBUG_OUTPUT.println("success! sleep");                // send to serial control messsage
+  // ESP.deepSleep(TEN_MINUTES_IN_uS);                       // put device to 10 minutes sleep, adjust if other sleep time is reqired between measurements
+  Serial.println("here3");
+  if(!OTA_updating){    
+  #ifndef DEEPSLEEP   
+    ESP.restart();   // for testing purposes simulating a deepsleep
+  #else
+    // ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
+    // delay(200);        // recommended to use with deepsleep
+  #endif
+  }
+  
   #ifndef DEEPSLEEP
   Polling.update();
   #endif
-  Serial.println(".");
-  Blynk.run();
-  ArduinoOTA.handle();
+  // Serial.println(".");
+  // Blynk.run();
+  // ArduinoOTA.handle();
 }
-
-
-
-
-
-
-
-
-
