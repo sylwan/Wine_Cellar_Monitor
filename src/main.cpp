@@ -33,7 +33,7 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
-#define DEEPSLEEP
+// #define DEEPSLEEP
 #define BLYNK_PRINT Serial
 #define BLYNK_DEBUG
 
@@ -80,8 +80,9 @@ void sendTemperature()                            // temperature measuring funct
 
 }
 
-// Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS); 
-
+#ifndef DEEPSLEEP
+Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS); 
+#endif
 
 
 void setup() {
@@ -128,21 +129,32 @@ void setup() {
   ArduinoOTA.begin();
   dht.begin();
   // digitalWrite(LED, HIGH);
-  // Polling.start();
+  #ifndef DEEPSLEEP
+  Polling.start();
+  #endif
   DEBUG_OUTPUT.print("IP Address: ");
   DEBUG_OUTPUT.print(WiFi.localIP().toString());
+
   
-  sendTemperature();
-  delay(200);
-  Blynk.run();
-  ArduinoOTA.handle();
+
+  // Serial.println("here1");
+  static const unsigned long start_millis=millis();
+  while((millis()-start_millis)<2000){
+    Blynk.run();
+    Serial.println("here2");
+  
+    ArduinoOTA.handle();
+  }
   // DEBUG_OUTPUT.println("success! sleep");                // send to serial control messsage
   // ESP.deepSleep(TEN_MINUTES_IN_uS);                       // put device to 10 minutes sleep, adjust if other sleep time is reqired between measurements
-
+  Serial.println("here3");
   if(!OTA_updating){  
+  #ifndef DEEPSLEEP
+    ESP.restart();   // for testing purposes simulating a deepsleep
+  #else
     // ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
     // delay(200);        // recommended to use with deepsleep
-    ESP.restart();   // for testing purposes simulating a deepsleep
+  #endif
   }
   // DEBUG_OUTPUT.print("["); 
   // DEBUG_OUTPUT.print(millis());
@@ -150,7 +162,10 @@ void setup() {
 }
 
 void loop() {
-  // Polling.update();
+  sendTemperature();
+  #ifndef DEEPSLEEP
+  Polling.update();
+  #endif
   Serial.println(".");
   Blynk.run();
   ArduinoOTA.handle();
