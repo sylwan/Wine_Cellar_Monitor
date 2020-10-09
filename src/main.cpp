@@ -39,9 +39,10 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 
 
 // Static IP details...Use static because it's much faster
-
+byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress ip(192,168,100,251);
 IPAddress gateway(192,168,100,1);
+IPAddress dns(192,168,100,1);
 IPAddress mask(255,255,255,0);
 // DHTesp dht;
 char ssid[] = "Maccheccazzo";
@@ -87,13 +88,14 @@ Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS);
 void setup() {
   Serial.begin(115200);
   Serial.println("Setup");
-  WiFi.hostname(DEVICENAME); // DHCP Hostname 
-  Serial.println("hostname set");
+  // WiFi.hostname(DEVICENAME); // DHCP Hostname 
+  // Serial.println("hostname set");
   WiFi.config(ip, gateway, mask);
-  Serial.println("static IP set");
-  WiFi.begin(ssid, pass);
-  Serial.println("Wifi");
-  Blynk.config(AUTH);
+  // Serial.println("static IP set");
+  // WiFi.begin(ssid, pass);
+  // Serial.println("Wifi");
+  // Blynk.config(AUTH);
+  Blynk.begin(AUTH, ssid, pass);
   Serial.println("attempting to connect");
   // while(Blynk.connect() == false){};
   Serial.println("connected");
@@ -148,7 +150,7 @@ void loop() {
   Serial.println("sent");
   static const unsigned long start_millis=millis();
   while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
-    Serial.println("here2");
+    Serial.println("here1");
     Blynk.run();
     Serial.println("here2");
     ArduinoOTA.handle();
