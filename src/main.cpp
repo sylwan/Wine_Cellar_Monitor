@@ -60,7 +60,7 @@ void sendTemperature()                            // temperature measuring funct
   DEBUG_OUTPUT.print("] \n");
   dht.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
-    DEBUG_OUTPUT.println(F("Error reading temperature!"));
+    DEBUG_OUTPUT.print(F("Error reading temperature!  |  "));
   } else {
     Blynk.virtualWrite(0, event.temperature);   // send to Blynk virtual pin 0 temperature value
     DEBUG_OUTPUT.print(F("Temperature: "));
@@ -70,20 +70,19 @@ void sendTemperature()                            // temperature measuring funct
   // Get humidity event and print its value.
   dht.humidity().getEvent(&event);
   if (isnan(event.relative_humidity)) {
-    DEBUG_OUTPUT.println(F("Error reading humidity!"));
+    DEBUG_OUTPUT.print(F("Error reading humidity!"));
   } else {
     Blynk.virtualWrite(1, event.relative_humidity);                       // send to Blynk virtual pin 1 humidity value
     DEBUG_OUTPUT.print(F("Humidity: "));
     DEBUG_OUTPUT.print(event.relative_humidity);
     DEBUG_OUTPUT.println(F("%"));
   }
-
+  DEBUG_OUTPUT.print(F("sent"));
 }
 
 #ifndef DEEPSLEEP
 Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS); 
 #endif
-
 
 void setup() {
   Serial.begin(115200);
@@ -146,8 +145,10 @@ void loop() {
 
   Serial.println("loop");
   sendTemperature();
+  Serial.println("sent");
   static const unsigned long start_millis=millis();
   while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
+    Serial.println("here2");
     Blynk.run();
     Serial.println("here2");
     ArduinoOTA.handle();
