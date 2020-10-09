@@ -1,0 +1,24 @@
+-------------------- Auto-Git Log --------------------
+		Thu Oct 08 2020 21:50:53 GMT-0400 (GMT-04:00)
+------------------------------------------------------
+
+Modified files:
+* platformio.ini
+* src/main.cpp
+
+
+Created files:
+* .autogit/autogit.json
+* .gitignore
+* .vscode/extensions.json
+* .vscode/tasks.json
+* WineCellarMonitor.code-workspace
+* include/README
+* lib/README
+* test/README
+
+
+Deleted files:
+
+
+Renamed files:
