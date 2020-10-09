@@ -11,6 +11,7 @@
 // #include <WidgetRTC.h>
 
 
+
 // Uncomment the type of sensor in use:
 // #define DHTTYPE    DHT11     // DHT 11
 #define DHTTYPE    DHT22     // DHT 22 (AM2302)
@@ -30,9 +31,11 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define TEN_MINUTES_IN_uS 600000000
 #define INTERVAL 10000L
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
-#define DEBUG_OUTPUT Serial 
+#define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
 #define DEEPSLEEP
+#define BLYNK_PRINT Serial
+#define BLYNK_DEBUG
 
 
 // Static IP details...Use static because it's much faster
@@ -83,10 +86,18 @@ void sendTemperature()                            // temperature measuring funct
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("Setup");
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
+  Serial.println("hostname set");
   WiFi.config(ip, gateway, mask);
-  Blynk.begin(AUTH, ssid, pass);
-  while(Blynk.connect() == false){};
+  Serial.println("static IP set");
+  WiFi.begin(ssid, pass);
+  Serial.println("Wifi");
+  Blynk.config(AUTH);
+  Serial.println("attempting to connect");
+  // while(Blynk.connect() == false){};
+  Serial.println("connected");
+  
   // rtc.begin();
   // DEBUG_OUTPUT.print(" \n\n["); 
   // DEBUG_OUTPUT.print(millis());
@@ -140,7 +151,8 @@ void setup() {
 
 void loop() {
   // Polling.update();
-  // Blynk.run();
+  Serial.println(".");
+  Blynk.run();
   ArduinoOTA.handle();
 }
 
