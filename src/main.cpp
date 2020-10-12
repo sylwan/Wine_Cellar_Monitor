@@ -90,13 +90,13 @@ void setup() {
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
   Serial.println("hostname set");
   WiFi.config(ip, gateway, mask);
-  Serial.println("static IP set");
-  WiFi.begin(ssid, pass);
-  Serial.println("Wifi");
+  // Serial.println("static IP set");
+  // WiFi.begin(ssid, pass);
+  // Serial.println("Wifi");
+  Blynk.begin (AUTH,ssid,pass);
   // Blynk.config(AUTH);
-  Blynk.config(AUTH);
   Serial.println("attempting to connect");
-  // while(Blynk.connect() == false){
+  while(Blynk.connect() == false){
     Serial.print(".");
   };
   Serial.println("connected");
@@ -163,8 +163,8 @@ void loop() {
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
   #else
-    // ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
-    // delay(200);        // recommended to use with deepsleep
+    ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
+    delay(200);        // recommended to use with deepsleep
   #endif
   }
   
