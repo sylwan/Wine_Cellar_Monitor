@@ -1,3 +1,6 @@
+#define BLYNK_DEBUG        // Optional, this enables more detailed prints
+#define BLYNK_DEBUG        // Optional, this enables more detailed prints
+#define BLYNK_PRINT Serial // Defines the object that is used for printing
 
 #include <Arduino.h>
 #include <ArduinoOTA.h>
@@ -34,8 +37,6 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
 // #define DEEPSLEEP
-#define BLYNK_PRINT Serial // Defines the object that is used for printing
-#define BLYNK_DEBUG        // Optional, this enables more detailed prints
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
@@ -80,6 +81,7 @@ void sendTemperature()                            // temperature measuring funct
   DEBUG_OUTPUT.print(F("sent"));
 }
 
+
 #ifndef DEEPSLEEP
 Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS); 
 #endif
@@ -93,7 +95,9 @@ void setup() {
   // Serial.println("static IP set");
   // WiFi.begin(ssid, pass);
   // Serial.println("Wifi");
-  Blynk.begin (AUTH,ssid,pass);
+  // Blynk.begin (AUTH,ssid,pass);
+  
+  Blynk.config(AUTH,"blynk-cloud.com", 8442);
   // Blynk.config(AUTH);
   Serial.println("attempting to connect");
   while(Blynk.connect() == false){
