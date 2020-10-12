@@ -42,7 +42,8 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress ip(192,168,100,251);
 IPAddress gateway(192,168,100,1);
-IPAddress dns(192,168,100,1);
+// IPAddress dns(192,168,100,1);
+IPAddress dns(1,1,1,1);
 IPAddress mask(255,255,255,0);
 // DHTesp dht;
 char ssid[] = "Maccheccazzo";
