@@ -34,9 +34,8 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
 // #define DEEPSLEEP
-#define BLYNK_PRINT Serial
-#define BLYNK_DEBUG
-
+#define BLYNK_PRINT Serial // Defines the object that is used for printing
+#define BLYNK_DEBUG        // Optional, this enables more detailed prints
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
@@ -88,16 +87,18 @@ Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS);
 void setup() {
   Serial.begin(115200);
   Serial.println("Setup");
-  // WiFi.hostname(DEVICENAME); // DHCP Hostname 
-  // Serial.println("hostname set");
+  WiFi.hostname(DEVICENAME); // DHCP Hostname 
+  Serial.println("hostname set");
   WiFi.config(ip, gateway, mask);
-  // Serial.println("static IP set");
-  // WiFi.begin(ssid, pass);
-  // Serial.println("Wifi");
+  Serial.println("static IP set");
+  WiFi.begin(ssid, pass);
+  Serial.println("Wifi");
   // Blynk.config(AUTH);
-  Blynk.begin(AUTH, ssid, pass);
+  Blynk.config(AUTH);
   Serial.println("attempting to connect");
-  // while(Blynk.connect() == false){};
+  // while(Blynk.connect() == false){
+    Serial.print(".");
+  };
   Serial.println("connected");
   
   // rtc.begin();
