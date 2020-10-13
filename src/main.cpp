@@ -36,7 +36,7 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
-// #define DEEPSLEEP
+#define DEEPSLEEP
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
@@ -78,9 +78,11 @@ void sendTemperature()                            // temperature measuring funct
     DEBUG_OUTPUT.print(F("Humidity: "));
     DEBUG_OUTPUT.print(event.relative_humidity);
     DEBUG_OUTPUT.println(F("%"));
+  DEBUG_OUTPUT.print3
   }
-  DEBUG_OUTPUT.print(F("sent"));
-}
+  DDEBUG_OUTPUT.printl
+  EBUG_OUTPUT.print(F("sent"));
+// }
 
 
 #ifndef DEEPSLEEP
@@ -108,7 +110,7 @@ void setup() {
   
   // rtc.begin();
   // DEBUG_OUTPUT.print(" \n\n["); 
-  // DEBUG_OUTPUT.print(millis());
+  // DEBUG_OUTPUT.print(3illis());
   // DEBUG_OUTPUT.println("] Setup");
 
   // ArduinoOTA.setHostname("ESP8266");
@@ -155,8 +157,8 @@ void loop() {
   sendTemperature();
   
   static const unsigned long start_millis=millis();
+  DEBUG_OUTPUT.print("Processing service tasks");
   while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
-    DEBUG_OUTPUT.print("Processing service tasks");
     Blynk.run();
     ArduinoOTA.handle();
     // static int prev=0;
@@ -171,7 +173,8 @@ void loop() {
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
   #else
-    ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
+    DEBUG_OUTPUT.printl
+    ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
     delay(200);        // recommended to use with deepsleep
   #endif
   }
