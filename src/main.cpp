@@ -36,7 +36,7 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
-// #define DEEPSLEEP
+#define DEEPSLEEP
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
@@ -99,7 +99,7 @@ void setup() {
   // Blynk.begin (AUTH,ssid,pass);
   
   Blynk.config(AUTH);
-  // Blynk.config(AUTH);
+  // Blynk.config(AUTH, "blynk-cloud.com", 443);
   Serial.println("attempting to connect");
   while(Blynk.connect() == false){
     Serial.print(".");
@@ -150,21 +150,23 @@ void setup() {
 }
 
 void loop() {
-
-  Serial.println("loop");
+  
+  // Serial.println("loop");
   sendTemperature();
-  Serial.println("sent");
+  
   static const unsigned long start_millis=millis();
   while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
+    DEBUG_OUTPUT.print("Processing service tasks");
     Blynk.run();
     ArduinoOTA.handle();
-    if((millis()-start_millis)<100){
+    // static int prev=0;
+    if((millis()-start_millis)%500==0){
       Serial.print(".");
     }
   }
   // DEBUG_OUTPUT.println("success! sleep");                // send to serial control messsage
   // ESP.deepSleep(TEN_MINUTES_IN_uS);                       // put device to 10 minutes sleep, adjust if other sleep time is reqired between measurements
-  Serial.println("here3");
+  Serial.println("\nDone with service tasks");
   if(!OTA_updating){    
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
