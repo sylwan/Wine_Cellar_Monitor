@@ -1,6 +1,7 @@
 #define BLYNK_DEBUG        // Optional, this enables more detailed prints
 #define BLYNK_DEBUG        // Optional, this enables more detailed prints
 #define BLYNK_PRINT Serial // Defines the object that is used for printing
+#define OTA_DEBUG Serial
 
 #include <Arduino.h>
 #include <ArduinoOTA.h>
