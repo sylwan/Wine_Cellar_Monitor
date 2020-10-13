@@ -156,10 +156,11 @@ void loop() {
   Serial.println("sent");
   static const unsigned long start_millis=millis();
   while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
-    Serial.println("here1");
     Blynk.run();
-    Serial.println("here2");
     ArduinoOTA.handle();
+    if((millis()-start_millis)<100){
+      Serial.print(".");
+    }
   }
   // DEBUG_OUTPUT.println("success! sleep");                // send to serial control messsage
   // ESP.deepSleep(TEN_MINUTES_IN_uS);                       // put device to 10 minutes sleep, adjust if other sleep time is reqired between measurements
