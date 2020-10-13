@@ -78,11 +78,9 @@ void sendTemperature()                            // temperature measuring funct
     DEBUG_OUTPUT.print(F("Humidity: "));
     DEBUG_OUTPUT.print(event.relative_humidity);
     DEBUG_OUTPUT.println(F("%"));
-  DEBUG_OUTPUT.print3
   }
-  DDEBUG_OUTPUT.printl
-  EBUG_OUTPUT.print(F("sent"));
-// }
+  // DEBUG_OUTPUT.print(F("sent"));
+}
 
 
 #ifndef DEEPSLEEP
@@ -110,7 +108,7 @@ void setup() {
   
   // rtc.begin();
   // DEBUG_OUTPUT.print(" \n\n["); 
-  // DEBUG_OUTPUT.print(3illis());
+  // DEBUG_OUTPUT.print(millis());
   // DEBUG_OUTPUT.println("] Setup");
 
   // ArduinoOTA.setHostname("ESP8266");
@@ -173,9 +171,8 @@ void loop() {
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
   #else
-    DEBUG_OUTPUT.printl
-    ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
-    delay(200);        // recommended to use with deepsleep
+    ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
+    // delay(200);        // recommended to use with deepsleep
   #endif
   }
   
