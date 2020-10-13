@@ -36,7 +36,7 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
-#define DEEPSLEEP
+// #define DEEPSLEEP
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
