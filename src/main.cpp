@@ -157,7 +157,7 @@ void loop() {
   
   static const unsigned long start_millis=millis();
   DEBUG_OUTPUT.print("Processing service tasks");
-  while((millis()-start_millis)<2000){    // LEt OTA and Blynk run for 2 seconds
+  while((millis()-start_millis)<3000){    // LEt OTA and Blynk run for 2 seconds
     Blynk.run();
     ArduinoOTA.handle();
     // static int prev=0;
@@ -172,7 +172,8 @@ void loop() {
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
   #else
-    ESP.deepSleep(10e6);                       // put device to 10 seconds for testing purposes
+    DEBUG_OUTPUT.println("Sleeping...");
+    ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
     // delay(200);        // recommended to use with deepsleep
   #endif
   }
