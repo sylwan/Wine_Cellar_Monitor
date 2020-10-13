@@ -92,13 +92,13 @@ void setup() {
   Serial.println("Setup");
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
   Serial.println("hostname set");
-  WiFi.config(ip, gateway, mask);
+  // WiFi.config(ip, gateway, mask);
   // Serial.println("static IP set");
   // WiFi.begin(ssid, pass);
   // Serial.println("Wifi");
   // Blynk.begin (AUTH,ssid,pass);
   
-  Blynk.config(AUTH,"blynk-cloud.com", 8442);
+  Blynk.config(AUTH);
   // Blynk.config(AUTH);
   Serial.println("attempting to connect");
   while(Blynk.connect() == false){
