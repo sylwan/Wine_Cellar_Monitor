@@ -1,0 +1,18 @@
+-------------------- Auto-Git Log --------------------
+		Tue Oct 13 2020 15:52:45 GMT-0400 (GMT-04:00)
+------------------------------------------------------
+
+Modified files:
+* WineCellarMonitor.code-workspace
+* platformio.ini
+* src/main.cpp
+
+
+Created files:
+* .autogit/logs/log-13-9-2020-15-22-35.txt
+
+
+Deleted files:
+
+
+Renamed files:
