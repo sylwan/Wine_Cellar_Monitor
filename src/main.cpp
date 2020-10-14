@@ -141,7 +141,7 @@ void setup() {
   Polling.start();
   #endif
   DEBUG_OUTPUT.print("IP Address: ");
-  DEBUG_OUTPUT.print(WiFi.localIP().toString());
+  DEBUG_OUTPUT.println(WiFi.localIP().toString());
 
   
 
