@@ -3,6 +3,8 @@
 #define BLYNK_PRINT Serial // Defines the object that is used for printing
 #define OTA_DEBUG Serial
 
+// Stringifying the BUILD_TAG parameter in platformio.ini
+
 #include <Arduino.h>
 #include <ArduinoOTA.h>
 #include <Ticker.h>
@@ -38,6 +40,11 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define DEBUG_OUTPUT Serial  
 // #define DEBUG_OUTPUT Terminal
 #define DEEPSLEEP
+
+#define TEXTIFY(A) #A
+#define ESCAPEQUOTE(A) TEXTIFY(A)
+String buildTag = ESCAPEQUOTE(BUILD_TAG);
+
 
 // Static IP details...Use static because it's much faster
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
