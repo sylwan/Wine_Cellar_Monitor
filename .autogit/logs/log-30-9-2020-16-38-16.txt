@@ -1,0 +1,16 @@
+-------------------- Auto-Git Log --------------------
+		Fri Oct 30 2020 16:38:16 GMT-0400 (GMT-04:00)
+------------------------------------------------------
+
+Modified files:
+* platformio.ini
+
+
+Created files:
+* .autogit/logs/log-30-9-2020-16-8-5.txt
+
+
+Deleted files:
+
+
+Renamed files:
