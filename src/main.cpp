@@ -35,10 +35,11 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define PIN_TERMINAL V8
 #define AUTH "JhlCbpzEzkKnklsp4rCHSREdXzYpMBW-"
 #define TEN_MINUTES_IN_uS 600000000
+#define ONE_MINUTE_IN_uS  60000000
 #define INTERVAL 10000L
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
-#define DEBUG_OUTPUT Serial  
-// #define DEBUG_OUTPUT Terminal
+// #define DEBUG_OUTPUT Serial  
+#define DEBUG_OUTPUT Terminal
 #define DEEPSLEEP
 
 #define TEXTIFY(A) #A
@@ -88,6 +89,7 @@ void sendTemperature()                            // temperature measuring funct
     DEBUG_OUTPUT.println(F("%"));
   }
   // DEBUG_OUTPUT.print(F("sent"));
+
 }
 
 
@@ -98,6 +100,7 @@ Ticker Polling(sendTemperature, INTERVAL, 0, MILLIS);
 void setup() {
   Serial.begin(115200);
   Serial.println("Setup");
+  WiFi.persistent(false);
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
   Serial.println("hostname set");
   // WiFi.config(ip, gateway, mask);
@@ -179,8 +182,11 @@ void loop() {
   #ifndef DEEPSLEEP   
     ESP.restart();   // for testing purposes simulating a deepsleep
   #else
+  Terminal.flush();
     DEBUG_OUTPUT.println("Sleeping...");
-    ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
+    ESP.deepSleep(ONE_MINUTE_IN_uS);                       // put device to sleep for 1 minute
+    // ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
+    
     // delay(200);        // recommended to use with deepsleep
   #endif
   }
