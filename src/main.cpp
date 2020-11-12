@@ -1,5 +1,4 @@
 #define BLYNK_DEBUG        // Optional, this enables more detailed prints
-#define BLYNK_DEBUG        // Optional, this enables more detailed prints
 #define BLYNK_PRINT Serial // Defines the object that is used for printing
 #define OTA_DEBUG Serial
 
@@ -38,8 +37,8 @@ ADC_MODE(ADC_VCC);                                // enabled measure of 3.3 V le
 #define ONE_MINUTE_IN_uS  60000000
 #define INTERVAL 10000L
 #define LED              2   // The pin (marked D4) that activates the LED (internal)
-// #define DEBUG_OUTPUT Serial  
-#define DEBUG_OUTPUT Terminal
+#define DEBUG_OUTPUT Serial  
+// #define DEBUG_OUTPUT Terminal
 #define DEEPSLEEP
 
 #define TEXTIFY(A) #A
@@ -48,11 +47,11 @@ String buildTag = ESCAPEQUOTE(BUILD_TAG);
 
 
 // Static IP details...Use static because it's much faster
-byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
-IPAddress ip(192,168,100,251);
-IPAddress gateway(192,168,100,1);
-// IPAddress dns(192,168,100,1);
-IPAddress dns(1,1,1,1);
+byte mac[] = {0x2c, 0xf4, 0x32, 0x4a, 0x9c, 0x8a};
+IPAddress ip(192,168,10,200);
+IPAddress gateway(192,168,10,1);
+IPAddress dns(192,168,10,1);
+// IPAddress dns(1,1,1,1);
 IPAddress mask(255,255,255,0);
 // DHTesp dht;
 char ssid[] = "DelleCose";
@@ -68,7 +67,7 @@ void sendTemperature()                            // temperature measuring funct
   sensors_event_t event;
   DEBUG_OUTPUT.print("["); 
   DEBUG_OUTPUT.print(millis());
-  DEBUG_OUTPUT.print("] \n");
+  DEBUG_OUTPUT.print("]");
   dht.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
     DEBUG_OUTPUT.print(F("Error reading temperature!  |  "));
@@ -89,7 +88,7 @@ void sendTemperature()                            // temperature measuring funct
     DEBUG_OUTPUT.println(F("%"));
   }
   // DEBUG_OUTPUT.print(F("sent"));
-
+  DEBUG_OUTPUT.flush();
 }
 
 
@@ -103,19 +102,19 @@ void setup() {
   WiFi.persistent(false);
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
   Serial.println("hostname set");
-  // WiFi.config(ip, gateway, mask);
-  // Serial.println("static IP set");
+  WiFi.config(ip, gateway, mask);
+  Serial.println("static IP set");
   // WiFi.begin(ssid, pass);
   // Serial.println("Wifi");
-  // Blynk.begin (AUTH,ssid,pass);
+  Blynk.begin (AUTH,ssid,pass);
   
-  Blynk.config(AUTH);
+  // Blynk.config(AUTH);
   // Blynk.config(AUTH, "blynk-cloud.com", 443);
-  Serial.println("attempting to connect");
-  while(Blynk.connect() == false){
-    Serial.print(".");
-  };
-  Serial.println("connected");
+  // Serial.println("attempting to connect");
+  // while(Blynk.connect() == false){
+  //   Serial.print(".");
+  // };
+  // Serial.println("connected");
   
   // rtc.begin();
   // DEBUG_OUTPUT.print(" \n\n["); 
@@ -143,7 +142,7 @@ void setup() {
     else if (error == OTA_RECEIVE_ERROR) DEBUG_OUTPUT.println("OTA Receive Failed");
     else if (error == OTA_END_ERROR) DEBUG_OUTPUT.println("OTA End Failed");
   });
-
+  DEBUG_OUTPUT.println("Starting OTA...");
   ArduinoOTA.begin();
   dht.begin();
   // digitalWrite(LED, HIGH);
@@ -166,7 +165,7 @@ void loop() {
   sendTemperature();
   
   static const unsigned long start_millis=millis();
-  DEBUG_OUTPUT.print("Processing service tasks");
+  Serial.print("Processing service tasks");
   while((millis()-start_millis)<3000){    // LEt OTA and Blynk run for 2 seconds
     Blynk.run();
     ArduinoOTA.handle();
