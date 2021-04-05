@@ -8,7 +8,7 @@
 #include <ArduinoOTA.h>
 #include <Ticker.h>
 #include <Schedule.h>
-#include <BlynkSimpleEsp8266_SSL.h>
+#include <BlynkSimpleEsp8266.h>
 // #include <DHTesp.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
@@ -151,26 +151,19 @@ void setup() {
   #endif
   DEBUG_OUTPUT.print("IP Address: ");
   DEBUG_OUTPUT.println(WiFi.localIP().toString());
-
-  
-
   // DEBUG_OUTPUT.print("["); 
   // DEBUG_OUTPUT.print(millis());
   // DEBUG_OUTPUT.println("] END Setup");
 }
 
 void loop() {
-  
-  // Serial.println("loop");
-  sendTemperature();
-  
   static const unsigned long start_millis=millis();
-  Serial.print("Processing service tasks");
-  while((millis()-start_millis)<3000){    // LEt OTA and Blynk run for 2 seconds
+  sendTemperature();
+  while((millis()-start_millis)<3000){    // Let OTA and Blynk run for 2 seconds
     Blynk.run();
     ArduinoOTA.handle();
     // static int prev=0;
-    if((millis()-start_millis)%500==0){
+    if((millis()-start_millis)%500==0){ //assuming the loop runs at least once a millisecond
       Serial.print(".");
     }
   }
@@ -185,7 +178,6 @@ void loop() {
     DEBUG_OUTPUT.println("Sleeping...");
     ESP.deepSleep(ONE_MINUTE_IN_uS);                       // put device to sleep for 1 minute
     // ESP.deepSleep(30e6);                       // put device to 30 seconds for testing purposes
-    
     // delay(200);        // recommended to use with deepsleep
   #endif
   }
@@ -194,6 +186,6 @@ void loop() {
   Polling.update();
   #endif
   // Serial.println(".");
-  // Blynk.run();
-  // ArduinoOTA.handle();
+  Blynk.run();
+  ArduinoOTA.handle();
 }
