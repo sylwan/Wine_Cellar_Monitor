@@ -103,8 +103,8 @@ void setup() {
   WiFi.persistent(false);
   WiFi.hostname(DEVICENAME); // DHCP Hostname 
   Serial.println("hostname set");
-  WiFi.config(ip, gateway, mask);
-  Serial.println("static IP set");
+  // WiFi.config(ip, gateway, mask);
+  // Serial.println("static IP set");
   // WiFi.begin(ssid, pass);
   // Serial.println("Wifi");
   Blynk.begin (AUTH,ssid,pass);
