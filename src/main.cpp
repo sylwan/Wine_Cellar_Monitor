@@ -10,6 +10,7 @@
 #include <Schedule.h>
 #include <BlynkSimpleEsp8266.h>
 // #include <DHTesp.h>
+#include <Hash.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
